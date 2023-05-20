@@ -69,32 +69,8 @@ public class itemManager implements Listener {
         }
     }
     public static void mobs() { // Initializarea mobilor pentru a putea fi pusi in GUI
-        ItemStack temp;
-        SkullMeta meta;
-        ItemMeta meta2;
-        List<String> lore = new ArrayList<>();
         for (MobsEnum m : MobsEnum.values()) {
-            if (m.isDefault == true) {
-                temp = new ItemStack(Material.getMaterial(m.mobName), 1);
-                meta2 = temp.getItemMeta();
-                meta2.setDisplayName(m.displayName);
-                lore.clear();
-                lore.add(ChatColor.translateAlternateColorCodes('&', "Click to spawn a(n) " + m.displayName));
-                meta2.setLore(lore);
-                temp.setItemMeta(meta2);
-                mobs.add(temp);
-            }
-            else if (m.isDefault == false) {
-                temp = new ItemStack(Material.PLAYER_HEAD, 1);
-                meta = (SkullMeta) temp.getItemMeta();
-                meta.setOwner(m.mobName);
-                meta.setDisplayName(m.displayName);
-                lore.clear();
-                lore.add(ChatColor.translateAlternateColorCodes('&', "Click to spawn a(n) " + m.displayName));
-                meta.setLore(lore);
-                temp.setItemMeta(meta);
-                mobs.add(temp);
-            }
+            mobs.add(mobGenerator(m.isDefault, m.displayName, m.mobName));
         }
     }
 
@@ -114,4 +90,25 @@ public class itemManager implements Listener {
         }
     }
 
+    public static ItemStack mobGenerator(Boolean bool, String displayName, String mobName) {
+        ItemStack temp = null;
+        List<String> lore = new ArrayList<>();
+        if (bool == true) {
+            temp = new ItemStack(Material.getMaterial(mobName), 1);
+            ItemMeta meta2 = temp.getItemMeta();
+            meta2.setDisplayName(displayName);
+            lore.add(ChatColor.translateAlternateColorCodes('&', "Click to spawn a(n) " + displayName));
+            meta2.setLore(lore);
+            temp.setItemMeta(meta2);
+        } else if (bool == false) {
+            temp = new ItemStack(Material.PLAYER_HEAD, 1);
+            SkullMeta meta = (SkullMeta) temp.getItemMeta();
+            meta.setOwner(mobName);
+            meta.setDisplayName(displayName);
+            lore.add(ChatColor.translateAlternateColorCodes('&', "Click to spawn a(n) " + displayName));
+            meta.setLore(lore);
+            temp.setItemMeta(meta);
+        }
+        return temp;
+    }
 }
