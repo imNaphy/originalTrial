@@ -1,0 +1,10 @@
+name: originalTrial
+version: '${project.version}'
+main: me.originaltrial.OriginalTrial
+api-version: 1.19
+author: naphy
+description: Trial plugin for the Original server.
+commands:
+  mobs:
+    description: Spawn mobs.
+    usage: /<command>
